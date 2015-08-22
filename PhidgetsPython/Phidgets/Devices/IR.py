@@ -7,7 +7,6 @@ __author__ = 'Adam Stelmack'
 __version__ = '2.1.8'
 __date__ = 'May 10 2010'
 
-import threading
 from ctypes import *
 from Phidgets.PhidgetLibrary import PhidgetLibrary
 from Phidgets.Phidget import Phidget
@@ -84,12 +83,12 @@ class IRCode:
     def toString(self):
         """String representation of the IR code.
         """
-        str = ""
+        str0 = ""
         for i in range(len(self.Data)):
-            str += (self.__hexLookup[int(self.Data[i] / 16)]).decode()
-            str += (self.__hexLookup[int(self.Data[i] % 16)]).decode()
+            str0 += (self.__hexLookup[int(self.Data[i] / 16)]).decode()
+            str0 += (self.__hexLookup[int(self.Data[i] % 16)]).decode()
         
-        return str
+        return str0
 
 class CPhidgetIR_CodeInfo(Structure):
     _fields_ = [("bitCount",c_int),
@@ -210,11 +209,6 @@ class IRCodeInfo:
         #end Defaults
         
         if codeInfo != None:
-            if (codeInfo.bitCount % 8) == 0:
-                dataBytes = int(codeInfo.bitCount / 8) + 0
-            else:
-                dataBytes = int(codeInfo.bitCount / 8) + 1
-            
             self.Encoding = codeInfo.encoding
             self.Length = codeInfo.length
             self.BitCount = codeInfo.bitCount
@@ -341,7 +335,7 @@ class IR(Phidget):
             self.__IRCODEHANDLER = WINFUNCTYPE(c_int, c_void_p, c_void_p, POINTER(c_ubyte), c_int, c_int, c_int)
             self.__IRLEARNHANDLER = WINFUNCTYPE(c_int, c_void_p, c_void_p, POINTER(c_ubyte), c_int, POINTER(CPhidgetIR_CodeInfo))
             self.__IRRAWDATAHANDLER = WINFUNCTYPE(c_int, c_void_p, c_void_p, POINTER(c_int), c_int)
-        elif sys.platform == 'darwin' or sys.platform == 'linux2':
+        elif sys.platform == 'darwin' or sys.platform.startswith('linux'):
             self.__IRCODEHANDLER = CFUNCTYPE(c_int, c_void_p, c_void_p, POINTER(c_ubyte), c_int, c_int, c_int)
             self.__IRLEARNHANDLER = CFUNCTYPE(c_int, c_void_p, c_void_p, POINTER(c_ubyte), c_int, POINTER(CPhidgetIR_CodeInfo))
             self.__IRRAWDATAHANDLER = CFUNCTYPE(c_int, c_void_p, c_void_p, POINTER(c_int), c_int)

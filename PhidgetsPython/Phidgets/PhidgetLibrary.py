@@ -7,7 +7,6 @@ __author__ = 'Adam Stelmack'
 __version__ = '2.1.8'
 __date__ = 'May 17 2010'
 
-import threading
 from ctypes import *
 import sys
 
@@ -20,7 +19,7 @@ class PhidgetLibrary:
                 PhidgetLibrary.__dll = windll.LoadLibrary("phidget21.dll")
             elif sys.platform == 'darwin':
                 PhidgetLibrary.__dll = cdll.LoadLibrary("/Library/Frameworks/Phidget21.framework/Versions/Current/Phidget21")
-            elif sys.platform == 'linux2':
+            elif sys.platform.startswith('linux'):
                 PhidgetLibrary.__dll = cdll.LoadLibrary("libphidget21.so.0")
             else:
                 raise RuntimeError("Platform not supported")

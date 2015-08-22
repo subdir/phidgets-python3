@@ -8,9 +8,7 @@ __version__ = '2.1.8'
 __date__ = 'May 17 2010'
 
 from Phidgets.Common import prepOutput
-import threading
 from ctypes import *
-import Phidgets.Common
 import sys
 
 class PhidgetException(Exception):
@@ -29,7 +27,7 @@ class PhidgetException(Exception):
             self.dll = windll.LoadLibrary("phidget21.dll")
         elif sys.platform == 'darwin':
             self.dll = cdll.LoadLibrary("/Library/Frameworks/Phidget21.framework/Versions/Current/Phidget21")
-        elif sys.platform == 'linux2':
+        elif sys.platform.startswith('linux'):
             self.dll = cdll.LoadLibrary("libphidget21.so.0")
         else:
             self.dll = None
@@ -38,7 +36,7 @@ class PhidgetException(Exception):
         if(self.dll != None):
             self.code = code
             description = c_char_p()
-            result = self.dll.CPhidget_getErrorDescription(c_int(code), byref(description))
+            self.dll.CPhidget_getErrorDescription(c_int(code), byref(description))
             self.details = prepOutput(description)
     
     @staticmethod

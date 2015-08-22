@@ -9,11 +9,10 @@ __date__ ="12-Jan-2011 3:39:00 PM"
 
 import ctypes
 from ctypes import byref, c_double, c_int, c_void_p, c_longlong
-import threading
 import sys
 from Phidgets.PhidgetLibrary import PhidgetLibrary
 from Phidgets.Phidget import Phidget
-from Phidgets.PhidgetException import PhidgetErrorCodes, PhidgetException
+from Phidgets.PhidgetException import PhidgetException
 from Phidgets.Events.Events import FrequencyCounterCountEventArgs
 
 class FilterType:
@@ -51,7 +50,7 @@ class FrequencyCounter(Phidget):
 
         if sys.platform == 'win32':
             self.__FREQUENCYCOUNTHANDLER = ctypes.WINFUNCTYPE(c_int, c_void_p, c_void_p, c_int, c_int, c_int)
-        elif sys.platform == 'darwin' or sys.platform == 'linux2':
+        elif sys.platform == 'darwin' or sys.platform.startswith('linux'):
             self.__FREQUENCYCOUNTHANDLER = ctypes.CFUNCTYPE(c_int, c_void_p, c_void_p, c_int, c_int, c_int)
 
     def __del__(self):

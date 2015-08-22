@@ -7,11 +7,9 @@ __author__ = 'Adam Stelmack'
 __version__ = '2.1.8'
 __date__ = 'July 14 2010'
 
-import threading
 from ctypes import *
-from Phidgets.PhidgetException import PhidgetErrorCodes, PhidgetException
-from Phidgets.Events.Events import ErrorEventArgs, KeyChangeEventArgs, ServerConnectArgs, ServerDisconnectArgs
-from Phidgets.Phidget import Phidget
+from Phidgets.PhidgetException import PhidgetException
+from Phidgets.Events.Events import ErrorEventArgs, KeyChangeEventArgs, ServerConnectArgs
 from Phidgets.PhidgetLibrary import PhidgetLibrary
 import sys
 
@@ -30,12 +28,12 @@ class KeyListener:
     to set up listener for specific keys, or groups of keys.
     Events are available for key add or change, and for key removal.
     """
-    def __init__(self, dict, keyPattern):
+    def __init__(self, dict0, keyPattern):
         """The Constructor Method for the KeyListener Class
         
         Creates a new key listener, for a specific pattern, on a specific dictionary object.
         """
-        self.__dict = dict
+        self.__dict = dict0
         self.__keyPattern = keyPattern
         
         self.__listenerHandle = None
@@ -46,7 +44,7 @@ class KeyListener:
         
         if sys.platform == 'win32':
             self.__KEYCHANGEHANDLER = WINFUNCTYPE(c_int, c_long, c_void_p, c_char_p, c_char_p, c_int)
-        elif sys.platform == 'darwin' or sys.platform == 'linux2':
+        elif sys.platform == 'darwin' or sys.platform.startswith('linux'):
             self.__KEYCHANGEHANDLER = CFUNCTYPE(c_int, c_long, c_void_p, c_char_p, c_char_p, c_int)
 
     def __nativeKeyEvent(self, handle, userptr, key, value, reason):
@@ -163,7 +161,7 @@ class Dictionary:
             self.__ERRORHANDLER = WINFUNCTYPE(c_int, c_void_p, c_void_p, c_int, c_char_p)
             self.__SERVERATTACHHANDLER = WINFUNCTYPE(c_int, c_void_p, c_void_p)
             self.__SERVERDETACHHANDLER = WINFUNCTYPE(c_int, c_void_p, c_void_p)
-        elif sys.platform == 'darwin' or sys.platform == 'linux2':
+        elif sys.platform == 'darwin' or sys.platform.startswith('linux'):
             self.__ERRORHANDLER = CFUNCTYPE(c_int, c_void_p, c_void_p, c_int, c_char_p)
             self.__SERVERATTACHHANDLER = CFUNCTYPE(c_int, c_void_p, c_void_p)
             self.__SERVERDETACHHANDLER = CFUNCTYPE(c_int, c_void_p, c_void_p)
@@ -308,7 +306,7 @@ class Dictionary:
             raise
         
         if result > 0:
-            description = Phidget.getErrorDescription(result)
+            description = PhidgetException.getErrorDescription(result)
             raise PhidgetException(result, description)
         else:
             try:
@@ -438,12 +436,12 @@ class Dictionary:
         if result > 0:
             raise PhidgetException(result)
         else:
-            str = ""
+            str0 = ""
             for i in range(1024):
                 if value[i] == b'\x00':
                     break
-                str += value[i].decode()
-            return str
+                str0 += value[i].decode()
+            return str0
 
     def getServerID(self):
         """Returns the Server ID of a Phidget Webservice when this Dictionary was opened as remote.

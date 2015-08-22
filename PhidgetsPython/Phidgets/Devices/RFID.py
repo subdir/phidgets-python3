@@ -7,12 +7,11 @@ __author__ = 'Adam Stelmack'
 __version__ = '2.1.8'
 __date__ = 'May 17 2010'
 
-import threading
 from ctypes import *
 from Phidgets.Common import prepOutput
 from Phidgets.PhidgetLibrary import PhidgetLibrary
 from Phidgets.Phidget import Phidget
-from Phidgets.PhidgetException import PhidgetErrorCodes, PhidgetException
+from Phidgets.PhidgetException import PhidgetException
 from Phidgets.Events.Events import OutputChangeEventArgs, TagEventArgs
 import sys
 
@@ -62,7 +61,7 @@ class RFID(Phidget):
             self.__OUTPUTCHANGEHANDLER = WINFUNCTYPE(c_int, c_void_p, c_void_p, c_int, c_int)
             self.__TAG2HANDLER = WINFUNCTYPE(c_int, c_void_p, c_void_p, c_char_p, c_int)
             self.__TAGLOST2HANDLER = WINFUNCTYPE(c_int, c_void_p, c_void_p, c_char_p, c_int)
-        elif sys.platform == 'darwin' or sys.platform == 'linux2':
+        elif sys.platform == 'darwin' or sys.platform.startswith('linux'):
             self.__OUTPUTCHANGEHANDLER = CFUNCTYPE(c_int, c_void_p, c_void_p, c_int, c_int)
             self.__TAG2HANDLER = CFUNCTYPE(c_int, c_void_p, c_void_p, c_char_p, c_int)
             self.__TAGLOST2HANDLER = CFUNCTYPE(c_int, c_void_p, c_void_p, c_char_p, c_int)

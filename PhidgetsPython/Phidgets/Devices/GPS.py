@@ -9,7 +9,6 @@ __date__ ="13-Jan-2011 12:29:34 PM"
 
 import ctypes
 from ctypes import byref, c_int, c_double, c_void_p, c_short, Structure
-import threading
 import sys
 from Phidgets.PhidgetLibrary import PhidgetLibrary
 from Phidgets.Phidget import Phidget
@@ -98,7 +97,7 @@ class GPS(Phidget):
         if sys.platform == 'win32':
             self.__POSITIONCHANGEHANDLER = ctypes.WINFUNCTYPE(c_int, c_void_p, c_void_p, c_double, c_double, c_double)
             self.__POSITIONFIXSTATUSCHANGEHANDLER = ctypes.WINFUNCTYPE(c_int, c_void_p, c_void_p, c_int)
-        elif sys.platform == 'darwin' or sys.platform == 'linux2':
+        elif sys.platform == 'darwin' or sys.platform.startswith('linux'):
             self.__POSITIONCHANGEHANDLER = ctypes.CFUNCTYPE(c_int, c_void_p, c_void_p, c_double, c_double, c_double)
             self.__POSITIONFIXSTATUSCHANGEHANDLER = ctypes.CFUNCTYPE(c_int, c_void_p, c_void_p, c_int)
 

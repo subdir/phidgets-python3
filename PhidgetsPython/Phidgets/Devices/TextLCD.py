@@ -7,10 +7,7 @@ __author__ = 'Adam Stelmack'
 __version__ = '2.1.8'
 __date__ = 'May 17 2010'
 
-import ctypes
 from ctypes import byref, c_int, c_char_p, c_ubyte
-import threading
-import sys
 from Phidgets.PhidgetLibrary import PhidgetLibrary
 from Phidgets.Phidget import Phidget
 from Phidgets.PhidgetException import PhidgetException

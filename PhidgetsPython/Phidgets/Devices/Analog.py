@@ -8,11 +8,9 @@ __version__="2.1.8"
 __date__ ="12-Jan-2011 11:14:36 AM"
 
 from ctypes import byref, c_double, c_int
-import threading
-import sys
 from Phidgets.PhidgetLibrary import PhidgetLibrary
 from Phidgets.Phidget import Phidget
-from Phidgets.PhidgetException import PhidgetErrorCodes, PhidgetException
+from Phidgets.PhidgetException import PhidgetException
 
 class Analog(Phidget):
     """This class represents a Phidget Analog Controller.

@@ -9,7 +9,6 @@ __date__ ="12-Jan-2011 12:03:47 PM"
 
 import ctypes
 from ctypes import byref, c_double, c_int, c_void_p
-import threading
 import sys
 from Phidgets.PhidgetLibrary import PhidgetLibrary
 from Phidgets.Phidget import Phidget
@@ -55,7 +54,7 @@ class Bridge(Phidget):
 
         if sys.platform == 'win32':
             self.__BRIDGEDATAHANDLER = ctypes.WINFUNCTYPE(c_int, c_void_p, c_void_p, c_int, c_double)
-        elif sys.platform == 'darwin' or sys.platform == 'linux2':
+        elif sys.platform == 'darwin' or sys.platform.startswith('linux'):
             self.__BRIDGEDATAHANDLER = ctypes.CFUNCTYPE(c_int, c_void_p, c_void_p, c_int, c_double)
 
     def __del__(self):

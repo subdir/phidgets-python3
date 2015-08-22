@@ -7,12 +7,10 @@ __author__ = 'Adam Stelmack'
 __version__ = '2.1.8'
 __date__ = 'May 17 2010'
 
-import threading
 from ctypes import *
 from Phidgets.PhidgetLibrary import PhidgetLibrary
 from Phidgets.Phidget import Phidget
-from Phidgets.PhidgetException import PhidgetErrorCodes, PhidgetException
-import sys
+from Phidgets.PhidgetException import PhidgetException
 
 class LEDVoltage:
     """This is an enumeration of available voltage output level values.

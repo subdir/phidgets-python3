@@ -9,12 +9,10 @@ __version__ = '2.1.8'
 __date__ = 'May 17 2010'
 
 from Phidgets.Common import prepOutput
-import threading
 from ctypes import *
-import Phidgets.Common
 from Phidgets.PhidgetLibrary import PhidgetLibrary
-from Phidgets.PhidgetException import PhidgetErrorCodes, PhidgetException
-from Phidgets.Events.Events import AttachEventArgs, DetachEventArgs, ErrorEventArgs, ServerConnectArgs, ServerDisconnectArgs
+from Phidgets.PhidgetException import PhidgetException
+from Phidgets.Events.Events import AttachEventArgs, DetachEventArgs, ErrorEventArgs, ServerConnectArgs
 import sys
 
 class PhidgetLogLevel:
@@ -274,7 +272,7 @@ class Phidget:
             self.__ERRORHANDLER = WINFUNCTYPE(c_int, c_void_p, c_void_p, c_int, c_char_p)
             self.__SERVERATTACHHANDLER = WINFUNCTYPE(c_int, c_void_p, c_void_p)
             self.__SERVERDETACHHANDLER = WINFUNCTYPE(c_int, c_void_p, c_void_p)
-        elif sys.platform == 'darwin' or sys.platform == 'linux' or sys.platform == 'linux2':
+        elif sys.platform == 'darwin' or sys.platform.startswith('linux'):
             self.__ATTACHHANDLER = CFUNCTYPE(c_int, c_void_p, c_void_p)
             self.__DETACHHANDLER = CFUNCTYPE(c_int, c_void_p, c_void_p)
             self.__ERRORHANDLER = CFUNCTYPE(c_int, c_void_p, c_void_p, c_int, c_char_p)
@@ -964,7 +962,7 @@ class Phidget:
             raise PhidgetException(result)
 
     @staticmethod
-    def log(level, id, log):
+    def log(level, id0, log):
         """Adds a log entry into the phidget log.
         
         This log is enabled by calling enableLogging and this allows the entry of user logs in amongst the phidget library logs.
@@ -990,7 +988,7 @@ class Phidget:
             PhidgetException
         """
         try:
-            result = PhidgetLibrary.getDll().CPhidget_log(c_int(level), c_char_p(id), c_char_p(log))
+            result = PhidgetLibrary.getDll().CPhidget_log(c_int(level), c_char_p(id0), c_char_p(log))
         except RuntimeError:
             raise
         
