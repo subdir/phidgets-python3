@@ -738,6 +738,8 @@ class Phidget:
         if result > 0:
             raise PhidgetException(result)
 
+    setOnErrorHandler = setOnErrorhandler # fixed case
+
     def waitForAttach(self, timeout):
         """Waits for this Phidget to become available.
         
