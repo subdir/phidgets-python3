@@ -250,7 +250,7 @@ class Phidget:
     def __init__(self):
         """Default Class constructor.
         
-        This constructor is to be used only by subclasses, as the Phidget calss should never need to be instatiated directly by the user.
+        This constructor is to be used only by subclasses, as the Phidget class should never need to be instatiated directly by the user.
         """
         self.handle = c_void_p()
         
